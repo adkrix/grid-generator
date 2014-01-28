@@ -1,42 +1,25 @@
 /**
-  GRID GENERATOR
-
-  .grid-generator(16,20px,'mycol','myrow');
-
-  generate 16-column grid with 20px-gutter
-
-  ROW
-
-    .myrow{...}
-
-  COLUMNS
-
-    .mycol-1{...} ... .mycol-16{...}
-
-  OFFSETS
-
-    .mycol-offset-1{...} ... .mycol-offset-15{...}
-
-  PULLS
-
-    .mycol-pull-0{...} ... .mycol-pull-15{...}
-
-  PUSHS
-
-    .mycol-push-0{...} ... .mycol-push-15{...}
-
-  or for Bootstrap 3
-
-  standard bootstrap-3 grid
-
-    .grid-generator-responsive();
-
-  16-column bootstrap-3 grid with 20px gutter
-
-    .grid-generator-responsive(16, 20px);
-
-  @author: arthur.creek@gmail.com
-
+ *  GRID GENERATOR
+ *
+ *  Usage:
+ *
+ *    .grid-generator(16,20px,'mycol','myrow');
+ *
+ *  Generate 16-column grid with 20px-gutter
+ *
+ *  ROW: .myrow{...}
+ *
+ *  COLUMNS: .mycol-1{...} ... .mycol-16{...}
+ *
+ *  OFFSETS: .mycol-offset-1{...} ... .mycol-offset-15{...}
+ *
+ *  PULLS: .mycol-pull-0{...} ... .mycol-pull-15{...}
+ *
+ *  PUSHS: .mycol-push-0{...} ... .mycol-push-15{...}
+ *
+ *
+ *  @author: arthur.creek@gmail.com
+ *
  */
 
 .grid-generator(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @offsets: true, @ordering: true, @min-width: 0)
