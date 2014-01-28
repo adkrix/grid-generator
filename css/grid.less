@@ -1,0 +1,38 @@
+/*
+  Standart bootstrap grid without xx-offset mode
+
+  columns: 12
+  gutter: 30px
+  column name base: col       # col-xs-12, col-lg-1
+  row name: row
+  xs-offset mode: false
+*/
+.grid-generator-responsive();
+
+/*
+  Standart bootstrap grid with xx-offset mode
+
+  columns: 12
+  gutter: 30px
+  column name base: col       # col-xs-12, col-lg-1
+  row name: row
+  xs-offset mode: false
+*/
+.grid-generator-responsive(12, 30px, 'col', 'row', true);
+
+
+/*
+  Custom grid with extra extra small mode (xx)
+
+  extra extra small (xx): true
+  columns: 20
+  gutter: 20px
+  column name base: grid       # grid-xs-12, grid-lg-1
+  row name: grid
+  xs and xx offset mode: true
+*/
+
+.grid-generator-mobile(20, 20px, 'grid', 'grid', true);
+
+
+

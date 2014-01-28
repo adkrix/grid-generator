@@ -1,0 +1,242 @@
+/**
+  GRID GENERATOR
+
+  .grid-generator(16,20px,'mycol','myrow');
+
+  generate 16-column grid with 20px-gutter
+
+  ROW
+
+    .myrow{...}
+
+  COLUMNS
+
+    .mycol-1{...} ... .mycol-16{...}
+
+  OFFSETS
+
+    .mycol-offset-1{...} ... .mycol-offset-15{...}
+
+  PULLS
+
+    .mycol-pull-0{...} ... .mycol-pull-15{...}
+
+  PUSHS
+
+    .mycol-push-0{...} ... .mycol-push-15{...}
+
+  or for Bootstrap 3
+
+  standard bootstrap-3 grid
+
+    .grid-generator-responsive();
+
+  16-column bootstrap-3 grid with 20px gutter
+
+    .grid-generator-responsive(16, 20px);
+
+  @author: arthur.creek@gmail.com
+
+ */
+
+.grid-generator(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @offsets: true, @ordering: true, @min-width: 0){
+
+  // row container
+  .init-row() when (@row-name > '') {
+    @name: ~".@{row-name}";
+    @{name}{
+      margin-left: (@gutter / -2) !important;
+      margin-right: (@gutter / -2) !important;
+      &:before,&:after{
+        content: " ";
+        display: table;
+      }
+      &:after{
+        clear: both;
+      }
+    }
+  }
+  .init-row();
+
+
+
+  // common properties
+  .properties(@index) when (@index = @cols)
+  {
+    @name: ~".@{col-name}-@{index}";
+    .properties(@index - 1, @name);
+  }
+
+  .properties(@index, @names) when (@index > 0)
+  {
+    @name: ~".@{col-name}-@{index}";
+    .properties(@index - 1, ~"@{names}, @{name}");
+  }
+
+  .properties(@index, @names) when (@index = 0)
+  {
+    @{names}
+    {
+      position: relative;
+      min-height: 1px;
+      padding-left: (@gutter / 2);
+      padding-right: (@gutter / 2);
+    }
+  }
+
+  .properties(@cols);
+
+  .init-cols() {
+
+    // floating
+    .floating(@index) when (@index = @cols - 1)
+    {
+      @name: ~".@{col-name}-@{index}";
+      .floating(@index - 1, @name);
+    }
+
+    .floating(@index, @names) when (@index > 0)
+    {
+      @name: ~".@{col-name}-@{index}";
+      .floating(@index - 1, ~"@{names}, @{name}");
+    }
+
+    .floating(@index, @names) when (@index = 0)
+    {
+      @{names}
+      {
+        float: left;
+      }
+    }
+
+    .floating(@cols - 1);
+
+
+    // WIDTH of columns
+    .width(@index) when (@index > 0)
+    {
+      @name: ~".@{col-name}-@{index}";
+      @{name}
+      {
+        width: (100% / @cols * @index);
+      }
+      .width(@index - 1);
+    }
+
+    .width(@cols);
+
+    // OFFSET
+    .offset(@index) when (@index > 0) and (@offsets)
+    {
+      @name: ~".@{col-name}-offset-@{index}";
+      @{name}
+      {
+        margin-left: (100% / @cols * @index);
+      }
+      .offset(@index - 1);
+    }
+
+    .offset(@index) when (@index = 0) and (@offsets)
+    {
+      @name: ~".@{col-name}-offset-@{index}";
+      @{name}
+      {
+        margin-left: 0;
+      }
+    }
+    .offset(@cols - 1);
+
+    // PUSH
+    .push(@index) when (@index > 0) and (@ordering)
+    {
+      @name: ~".@{col-name}-push-@{index}";
+      @{name}
+      {
+        left: (100% / @cols * @index);
+      }
+      .push(@index - 1);
+    }
+    .push(@index) when (@index = 0) and (@ordering)
+    {
+      @name: ~".@{col-name}-push-@{index}";
+      @{name}
+      {
+        left: auto;
+      }
+    }
+    .push(@cols - 1);
+
+    // PULL
+    .pull(@index) when (@index > 0) and (@ordering)
+    {
+      @name: ~".@{col-name}-pull-@{index}";
+      @{name}
+      {
+        right: (100% / @cols * @index);
+      }
+      .pull(@index - 1);
+    }
+    .pull(@index) when (@index = 0) and (@ordering)
+    {
+      @name: ~".@{col-name}-pull-@{index}";
+      @{name}
+      {
+        right: auto;
+      }
+    }
+    .pull(@cols - 1);
+  }
+
+  .init-cols-wrap() when (@min-width > 0) {
+    @media (min-width: @min-width){
+      .init-cols();
+    }
+  }
+
+  .init-cols-wrap() when (@min-width = 0) {
+    .init-cols();
+  }
+
+
+  .init-cols-wrap();
+}
+
+// standard bootstrap-3 grid
+//   .grid-generator-responsive();
+
+// 16-column bootstrap-3 grid with 20px gutter
+//   .grid-generator-responsive(16, 20px);
+
+.grid-generator-responsive(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @xs-offset: false) {
+
+  // XS
+  .grid-generator(@cols, @gutter, ~"@{col-name}-xs", @row-name, @xs-offset, false);
+
+  // SM
+  .grid-generator(@cols, @gutter, ~"@{col-name}-sm", '', true, true, 768px);
+
+  // MD
+  .grid-generator(@cols, @gutter, ~"@{col-name}-md", '', true, true, 992px);
+
+  // LG
+  .grid-generator(@cols, @gutter, ~"@{col-name}-lg", '', true, true, 1200px);
+}
+
+// Extra grid 480 / 768 / 992 / 1200
+.grid-generator-mobile(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @xs-offset: false) {
+
+  // XX
+  .grid-generator(@cols, @gutter, ~"@{col-name}-xx", @row-name, @xs-offset, false);
+
+  // XS
+  .grid-generator(@cols, @gutter, ~"@{col-name}-xs", '', true, false, 480px);
+
+  // SM
+  .grid-generator(@cols, @gutter, ~"@{col-name}-sm", '', true, true, 768px);
+
+  // MD
+  .grid-generator(@cols, @gutter, ~"@{col-name}-md", '', true, true, 992px);
+
+  // LG
+  .grid-generator(@cols, @gutter, ~"@{col-name}-lg", '', true, true, 1200px);
+}
