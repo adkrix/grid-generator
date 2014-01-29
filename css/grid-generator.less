@@ -22,7 +22,7 @@
  *
  */
 
-.grid-generator(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @offsets: true, @ordering: true, @min-width: 0)
+.grid-generator(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @min-width: 0)
 {
 
   // row container
@@ -78,7 +78,7 @@
   {
 
     // floating
-    .floating(@index) when (@index = @cols - 1)
+    .floating(@index) when (@index = @cols)
     {
       @name: ~".@{col-name}-@{index}";
       .floating(@index - 1, @name);
@@ -98,7 +98,7 @@
       }
     }
 
-    .floating(@cols - 1);
+    .floating(@cols);
 
 
     // WIDTH of columns
@@ -116,7 +116,7 @@
 
 
     // OFFSET
-    .offset(@index) when (@index > 0) and (@offsets)
+    .offset(@index) when (@index > 0)
     {
       @name: ~".@{col-name}-offset-@{index}";
       @{name}
@@ -126,7 +126,7 @@
       .offset(@index - 1);
     }
 
-    .offset(@index) when (@index = 0) and (@offsets)
+    .offset(@index) when (@index = 0)
     {
       @name: ~".@{col-name}-offset-0";
       @{name}
@@ -135,11 +135,11 @@
       }
     }
 
-    .offset(@cols - 1);
+    .offset(@cols);
 
 
     // PUSH
-    .push(@index) when (@index > 0) and (@ordering)
+    .push(@index) when (@index > 0)
     {
       @name: ~".@{col-name}-push-@{index}";
       @{name}
@@ -149,7 +149,7 @@
       .push(@index - 1);
     }
 
-    .push(@index) when (@index = 0) and (@ordering)
+    .push(@index) when (@index = 0)
     {
       @name: ~".@{col-name}-push-0";
       @{name}
@@ -158,11 +158,11 @@
       }
     }
 
-    .push(@cols - 1);
+    .push(@cols);
 
 
     // PULL
-    .pull(@index) when (@index > 0) and (@ordering)
+    .pull(@index) when (@index > 0)
     {
       @name: ~".@{col-name}-pull-@{index}";
       @{name}
@@ -172,7 +172,7 @@
       .pull(@index - 1);
     }
 
-    .pull(@index) when (@index = 0) and (@ordering)
+    .pull(@index) when (@index = 0)
     {
       @name: ~".@{col-name}-pull-0";
       @{name}
@@ -181,7 +181,7 @@
       }
     }
 
-    .pull(@cols - 1);
+    .pull(@cols);
   }
 
   .init-cols-wrap() when (@min-width > 0) {
@@ -199,67 +199,67 @@
 
 
 /**
-  RESPONSIVE GRID GENERATOR (BOOTSTRAP STYLE)
+ *  RESPONSIVE GRID GENERATOR (BOOTSTRAP STYLE)
+ *
+ *  Limits 768px / 992px / 1200px
+ *
+ *  standard bootstrap-3 grid
+ *
+ *    .grid-generator-responsive();
+ *
+ *  16-column bootstrap-3 grid with 20px gutter
+ *
+ *    .grid-generator-responsive(16, 20px);
+ */
 
-  Limits 768px / 992px / 1200px
-
-  standard bootstrap-3 grid
-
-    .grid-generator-responsive();
-
-  16-column bootstrap-3 grid with 20px gutter
-
-    .grid-generator-responsive(16, 20px);
-
-*/
-
-.grid-generator-responsive(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @xs-offset: false) {
+.grid-generator-responsive(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row') {
 
   // XS
-  .grid-generator(@cols, @gutter, ~"@{col-name}-xs", @row-name, @xs-offset, false);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-xs", @row-name);
 
   // SM
-  .grid-generator(@cols, @gutter, ~"@{col-name}-sm", '', true, true, 768px);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-sm", '', 768px);
 
   // MD
-  .grid-generator(@cols, @gutter, ~"@{col-name}-md", '', true, true, 992px);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-md", '', 992px);
 
   // LG
-  .grid-generator(@cols, @gutter, ~"@{col-name}-lg", '', true, true, 1200px);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-lg", '', 1200px);
 }
 
 
 /**
-  MOBILE GRID GENERATOR (BOOTSTRAP STYLE)
-  with added mobile grid less then 480px
+ *  MOBILE GRID GENERATOR (BOOTSTRAP STYLE)
+ *  with added mobile grid less then 480px
+ *
+ *  Limits 480px / 768px / 992px / 1200px
+ *
+ *  standard bootstrap-3 grid with mobile grid
+ *
+ *    .grid-generator-mobile();
+ *
+ *  20-column bootstrap-3 grid with 20px gutter and mobile grid (less 480px)
+ *
+ *    .grid-generator-responsive(16, 20px, 'grid', 'grid', true);
+ *
+ */
 
-  Limits 480px / 768px / 992px / 1200px
-
-  standard bootstrap-3 grid with mobile grid
-
-    .grid-generator-mobile();
-
-  20-column bootstrap-3 grid with 20px gutter and mobile grid (less 480px)
-
-    .grid-generator-responsive(16, 20px, 'grid', 'grid', true);
-
-*/
-
-.grid-generator-mobile(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @xs-offset: false) {
+.grid-generator-mobile(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row') {
 
   // XX
-  .grid-generator(@cols, @gutter, ~"@{col-name}-xx", @row-name, @xs-offset, false);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-xx", @row-name);
 
   // XS
-  .grid-generator(@cols, @gutter, ~"@{col-name}-xs", '', true, true, 480px);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-xs", '', 480px);
 
   // SM
-  .grid-generator(@cols, @gutter, ~"@{col-name}-sm", '', true, true, 768px);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-sm", '', 768px);
 
   // MD
-  .grid-generator(@cols, @gutter, ~"@{col-name}-md", '', true, true, 992px);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-md", '', 992px);
 
   // LG
-  .grid-generator(@cols, @gutter, ~"@{col-name}-lg", '', true, true, 1200px);
+  .grid-generator(@cols, @gutter, ~"@{col-name}-lg", '', 1200px);
 }
 
+.grid-generator-responsive();

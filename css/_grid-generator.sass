@@ -22,7 +22,7 @@
  *
  */
 
-@mixin grid-generator($cols: 12, $gutter: 30px, $col-name: 'col', $row-name: 'row', $offsets: true, $ordering: true, $min-width: 0)
+@mixin grid-generator($cols: 12, $gutter: 30px, $col-name: 'col', $row-name: 'row', $min-width: 0)
 
   @if $row-name != ''
     .#{$row-name}
@@ -36,7 +36,7 @@
 
   $columnList: ".#{$col-name}-1"
   @for $i from 2 through $cols
-    $columnList: ".#{$col-name}-#{$i},#{$columnList}"
+    $columnList: "#{$columnList}, .#{$col-name}-#{$i}"
 
   #{$columnList}
     position: relative
@@ -44,11 +44,18 @@
     padding-left: ($gutter / 2)
     padding-right: ($gutter / 2)
 
+  @if $min-width == 0
+    @include grid-generator-helper($cols, $col-name)
+  @else
+    @media (min-width: $min-width)
+      @include grid-generator-helper($cols, $col-name)
 
+
+@mixin grid-generator-helper($cols, $col-name)
   // FLOATING
   $columnList: ".#{$col-name}-1"
-  @for $i from 2 through $cols - 1
-    $columnList: ".#{$col-name}-#{$i},#{$columnList}"
+  @for $i from 2 through $cols
+    $columnList: "#{$columnList}, .#{$col-name}-#{$i}"
 
   #{$columnList}
     float: left
@@ -60,50 +67,92 @@
       width: (100% / $cols * $i)
 
   // OFFSET
-  @if $offsets
-    @for $i from 1 through $cols - 1
-      $offsetName: ".#{$col-name}-offset-#{$i}"
-      #{$offsetName}
-        margin-left: (100% / $cols * $i)
+  $offsetName: ".#{$col-name}-offset-0"
+  #{$offsetName}
+    margin-left: 0
 
-    $offsetName: ".#{$col-name}-offset-0"
+  @for $i from 1 through $cols
+    $offsetName: ".#{$col-name}-offset-#{$i}"
     #{$offsetName}
-      margin-left: 0
+      margin-left: (100% / $cols * $i)
 
-  @if $ordering
-    // PUSH
-    @for $i from 1 through $cols
-      $pushName: ".#{$col-name}-push-#{$i}"
-      #{$pushName}
-        left: (100% / $cols * $i)
+  // PUSH
+  $pushName: ".#{$col-name}-push-0"
+  #{$pushName}
+    left: 0
 
-    $pushName: ".#{$col-name}-push-0"
+  @for $i from 1 through $cols
+    $pushName: ".#{$col-name}-push-#{$i}"
     #{$pushName}
-      left: 0
+      left: (100% / $cols * $i)
 
-    // PULL
-    @for $i from 1 through $cols
-      $pullName: ".#{$col-name}-pull-#{$i}"
-      #{$pullName}
-        right: (100% / $cols * $i)
+  // PULL
+  $pullName: ".#{$col-name}-pull-0"
+  #{$pullName}
+    right: 0
 
-    $pullName: ".#{$col-name}-pull-0"
+  @for $i from 1 through $cols
+    $pullName: ".#{$col-name}-pull-#{$i}"
     #{$pullName}
-      right: 0
+      right: (100% / $cols * $i)
 
 
-@mixin grid-generator-responsive($cols: 12, $gutter: 30px, $col-name: 'col', $row-name: 'row', $xs-ofset: false)
+/**
+ *  RESPONSIVE GRID GENERATOR (BOOTSTRAP STYLE)
+ *
+ *  Limits 768px / 992px / 1200px
+ *
+ *  standard bootstrap-3 grid
+ *
+ *    .grid-generator-responsive();
+ *
+ *  16-column bootstrap-3 grid with 20px gutter
+ *
+ *    .grid-generator-responsive(16, 20px);
+ */
+@mixin grid-generator-responsive($cols: 12, $gutter: 30px, $col-name: 'col', $row-name: 'row')
   // XS
-  @include grid-generator($cols, $gutter, "#{$col-name}-xs", $row-name, $xs-ofset, false)
+  @include grid-generator($cols, $gutter, "#{$col-name}-xs", $row-name)
 
   // SM
-  @media (min-width: 768px)
-    @include grid-generator($cols, $gutter, "#{$col-name}-sm", '')
+  @include grid-generator($cols, $gutter, "#{$col-name}-sm", '', 768px)
 
   // MD
-  @media (min-width: 992px)
-    @include grid-generator($cols, $gutter, "#{$col-name}-md", '')
+  @include grid-generator($cols, $gutter, "#{$col-name}-md", '', 992px)
 
-  // LG only
-  @media (min-width: 1200px)
-    @include grid-generator($cols, $gutter, "#{$col-name}-lg", '')
+  // LG
+  @include grid-generator($cols, $gutter, "#{$col-name}-lg", '', 1200px)
+
+
+/**
+ *  MOBILE GRID GENERATOR (BOOTSTRAP STYLE)
+ *  with added mobile grid less then 480px
+ *
+ *  Limits 480px / 768px / 992px / 1200px
+ *
+ *  standard bootstrap-3 grid with mobile grid
+ *
+ *    .grid-generator-mobile();
+ *
+ *  20-column bootstrap-3 grid with 20px gutter and mobile grid (less 480px)
+ *
+ *    .grid-generator-responsive(16, 20px, 'grid', 'grid', true);
+ *
+ */
+@mixin grid-generator-mobile($cols: 12, $gutter: 30px, $col-name: 'col', $row-name: 'row')
+  // XX
+  @include grid-generator($cols, $gutter, "#{$col-name}-xx", $row-name)
+
+  // XS
+  @include grid-generator($cols, $gutter, "#{$col-name}-xs", '', 480px)
+
+  // SM
+  @include grid-generator($cols, $gutter, "#{$col-name}-sm", '', 768px)
+
+  // MD
+  @include grid-generator($cols, $gutter, "#{$col-name}-md", '', 992px)
+
+  // LG
+  @include grid-generator($cols, $gutter, "#{$col-name}-lg", '', 1200px)
+
+@include grid-generator-responsive()
