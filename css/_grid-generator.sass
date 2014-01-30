@@ -2,21 +2,15 @@
  *  GRID GENERATOR
  *
  *  Usage:
+ *    @include grid-generator(16,20px,'mycol','myrow')
  *
- *    .grid-generator(16,20px,'mycol','myrow');
- *
- *  Generate 16-column grid with 20px-gutter
+ *  Generating of 16-column grid with 20px-gutter
  *
  *  ROW: .myrow{...}
- *
  *  COLUMNS: .mycol-1{...} ... .mycol-16{...}
- *
- *  OFFSETS: .mycol-offset-1{...} ... .mycol-offset-15{...}
- *
- *  PULLS: .mycol-pull-0{...} ... .mycol-pull-15{...}
- *
- *  PUSHS: .mycol-push-0{...} ... .mycol-push-15{...}
- *
+ *  OFFSETS: .mycol-offset-1{...} ... .mycol-offset-16{...}
+ *  PULLS: .mycol-pull-0{...} ... .mycol-pull-16{...}
+ *  PUSHS: .mycol-push-0{...} ... .mycol-push-16{...}
  *
  *  @author: arthur.creek@gmail.com
  *
@@ -24,6 +18,12 @@
 
 @mixin grid-generator($cols: 12, $gutter: 30px, $col-name: 'col', $row-name: 'row', $min-width: 0)
 
+  @if unitless($gutter)
+    $gutter: $gutter * 1px
+  @if unitless($min-width)
+    $min-width: $min-width * 1px
+
+  // row container
   @if $row-name != ''
     .#{$row-name}
       margin-left: ($gutter / -2)
@@ -134,9 +134,9 @@
  *
  *    .grid-generator-mobile();
  *
- *  20-column bootstrap-3 grid with 20px gutter and mobile grid (less 480px)
+ *  20-column grid with 20px gutter and mobile grid (less 480px)
  *
- *    .grid-generator-responsive(16, 20px, 'grid', 'grid', true);
+ *    .grid-generator-responsive(16, 20px, 'grid', 'grid');
  *
  */
 @mixin grid-generator-mobile($cols: 12, $gutter: 30px, $col-name: 'col', $row-name: 'row')
@@ -155,4 +155,4 @@
   // LG
   @include grid-generator($cols, $gutter, "#{$col-name}-lg", '', 1200px)
 
-@include grid-generator-responsive()
+@include grid-generator(4, 20, 'cc', 'rr', 600)

@@ -2,21 +2,15 @@
  *  GRID GENERATOR
  *
  *  Usage:
- *
  *    .grid-generator(16,20px,'mycol','myrow');
  *
- *  Generate 16-column grid with 20px-gutter
+ *  Generating of 16-column grid with 20px-gutter
  *
  *  ROW: .myrow{...}
- *
  *  COLUMNS: .mycol-1{...} ... .mycol-16{...}
- *
- *  OFFSETS: .mycol-offset-1{...} ... .mycol-offset-15{...}
- *
- *  PULLS: .mycol-pull-0{...} ... .mycol-pull-15{...}
- *
- *  PUSHS: .mycol-push-0{...} ... .mycol-push-15{...}
- *
+ *  OFFSETS: .mycol-offset-1{...} ... .mycol-offset-16{...}
+ *  PULLS: .mycol-pull-0{...} ... .mycol-pull-16{...}
+ *  PUSHS: .mycol-push-0{...} ... .mycol-push-16{...}
  *
  *  @author: arthur.creek@gmail.com
  *
@@ -24,6 +18,8 @@
 
 .grid-generator(@cols: 12, @gutter: 30px, @col-name: 'col', @row-name: 'row', @min-width: 0)
 {
+  @gutter_: unit(@gutter, px);
+  @min-width_: unit(@min-width, px);
 
   // row container
   .init-row() when (@row-name > '')
@@ -31,8 +27,8 @@
     @name: ~".@{row-name}";
     @{name}
     {
-      margin-left: (@gutter / -2) !important;
-      margin-right: (@gutter / -2) !important;
+      margin-left: (@gutter_ / -2) !important;
+      margin-right: (@gutter_ / -2) !important;
       &:before,&:after
       {
         content: " ";
@@ -66,8 +62,8 @@
     {
       position: relative;
       min-height: 1px;
-      padding-left: (@gutter / 2);
-      padding-right: (@gutter / 2);
+      padding-left: (@gutter_ / 2);
+      padding-right: (@gutter_ / 2);
     }
   }
 
@@ -184,13 +180,13 @@
     .pull(@cols);
   }
 
-  .init-cols-wrap() when (@min-width > 0) {
-    @media (min-width: @min-width){
+  .init-cols-wrap() when (@min-width_ > 0) {
+    @media (min-width: @min-width_){
       .init-cols();
     }
   }
 
-  .init-cols-wrap() when (@min-width = 0) {
+  .init-cols-wrap() when (@min-width_ = 0) {
     .init-cols();
   }
 
@@ -262,4 +258,4 @@
   .grid-generator(@cols, @gutter, ~"@{col-name}-lg", '', 1200px);
 }
 
-.grid-generator-responsive();
+.grid-generator(4, 20,'cc','rr',600);

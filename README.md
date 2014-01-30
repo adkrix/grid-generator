@@ -79,7 +79,7 @@ Limits 480px / 768px / 992px / 1200px
 >
 > @row-name: 'grd';
 >
-> .grid-generator-mobile(@cols, @gutter, @col-name, @row-name, @xx-offsets)
+> .grid-generator-mobile(@cols, @gutter, @col-name, @row-name)
 
 It generates classes: `.grd`  for row and for  columns widths,  offsets and orderings
 
@@ -124,9 +124,9 @@ Include `_grid-generator.sass` into your main sass or scss file
 >
 > $row-name: 'xrow';
 >
-> $min-width: 0; // if @min-width > 0 then wrapped by @media (min-width: @min-width)
+> $min-width: 0; // if $min-width > 0 then wrapped by @media (min-width: $min-width)
 >
-> @include grid-generator(@cols, @gutter, @col-name, @row-name, @min-width)
+> @include grid-generator($cols, $gutter, $col-name, $row-name, $min-width)
 
 See output in LESS part
 
@@ -142,7 +142,7 @@ Limits 768px / 992px / 1200px
 >
 > $row-name: 'row';
 >
-> @include grid-generator-responsive(@cols, @gutter, @col-name, @row-name)
+> @include grid-generator-responsive($cols, $gutter, $col-name, $row-name)
 
 See output in LESS part
 
@@ -158,6 +158,6 @@ Limits 480px / 768px / 992px / 1200px
 >
 > $row-name: 'grd';
 >
-> @include grid-generator-mobile(@cols, @gutter, @col-name, @row-name, @xx-offsets)
+> @include grid-generator-mobile($cols, $gutter, $col-name, $row-name)
 
 See output in LESS part

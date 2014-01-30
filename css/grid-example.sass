@@ -1,4 +1,4 @@
-@import-once "grid-generator";
+@import "grid-generator"
 
 /**
  * Custom grid system with limits 600px / 960px
@@ -10,9 +10,9 @@
  * large screen column name: cl    # .cl-1 ... .cl-8
  * row name: rr                    # .rr
  */
-.grid-generator(8, 20, 'cs', 'rr');
-.grid-generator(8, 20, 'cm', '', 600);
-.grid-generator(8, 20, 'cl', '', 960);
+@include grid-generator(8, 20, 'cs', 'rr')
+@include grid-generator(8, 20, 'cm', '', 600)
+@include grid-generator(8, 20, 'cl', '', 960)
 
 
 /**
@@ -23,7 +23,7 @@
  * column name base: col       # .col-xs-1 ... .col-lg-12
  * row name: row               # .row
  */
-.grid-generator-responsive();
+@include grid-generator-responsive()
 
 
 /**
@@ -34,7 +34,7 @@
  * column name base: col       # .xcol-xs-1 ... .xcol-lg-16
  * row name: xrow              # .xrow
  */
-.grid-generator-responsive(16, 24px, 'xcol', 'xrow');
+@include grid-generator-responsive(16, 24px, 'xcol', 'xrow')
 
 
 /**
@@ -45,5 +45,5 @@
  * column name base: grid      # .grid-xx-1 ... .grid-lg-20
  * row name: grid              # .grid
  */
-.grid-generator-mobile(20, 20px, 'grid', 'grid', true);
+@include grid-generator-mobile(20, 20px, 'grid', 'grid', true)
 
